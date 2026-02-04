@@ -5,20 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Profile extends Model
+class Comment extends Model
 {
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'image',
-        'name',
-        'post_code',
-        'address',
-        'building'
+        'itemr_id',
+        'comment'
     ];
 
     public function users()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function items()
+    {
+        return $this->belongsTo(Item::class);
     }
 }
