@@ -10,8 +10,8 @@ class Item extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'condition_id',
         'image',
+        'condition',
         'name',
         'brand',
         'description',
@@ -21,11 +21,6 @@ class Item extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_item');
-    }
-
-    public function conditions()
-    {
-        return $this->belongsTo(Condition::class);
     }
 
     public function purchase()
