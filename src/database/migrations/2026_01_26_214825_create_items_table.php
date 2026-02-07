@@ -19,7 +19,7 @@ class CreateItemsTable extends Migration
             $table->string('image');
             $table->string('condition');
             $table->string('name');
-            $table->string('brand');
+            $table->string('brand')->nullable();
             $table->text('description');
             $table->integer('price');
             $table->timestamps();

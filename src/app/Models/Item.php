@@ -30,6 +30,10 @@ class Item extends Model
 
     public function good()
     {
-        return $this->hasOne(Good::class);
+        return $this->hasMany(Good::class);
+    }
+    public function isGoodByAuthUser()
+    {
+        return $this->good()->where('user_id', auth()->id())->exists();
     }
 }

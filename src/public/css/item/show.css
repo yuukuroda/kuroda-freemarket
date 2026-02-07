@@ -1,0 +1,12 @@
+.content {
+    display: flex;
+}
+
+.left,
+.right {
+    flex: 1;
+}
+
+.left img {
+    max-width: 100%;
+}

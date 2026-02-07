@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\GoodController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,6 @@ Route::middleware('auth')->group(
         Route::get('/', [ItemController::class, 'index']);
     }
 );
+Route::get('/item/{itemId}', [ItemController::class, 'show']);
+Route::post('/items/{item}', [GoodController::class, 'store'])->name('store');
+Route::delete('/items/{item}', [GoodController::class, 'destroy'])->name('destroy');
