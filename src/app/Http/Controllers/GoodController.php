@@ -7,7 +7,7 @@ use App\Models\Item;
 
 class GoodController extends Controller
 {
-    public function store(Item $item)
+    public function add(Item $item)
     {
         $item->good()->create(['user_id' => auth()->id()]);
         return back(); 

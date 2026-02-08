@@ -36,4 +36,9 @@ class Item extends Model
     {
         return $this->good()->where('user_id', auth()->id())->exists();
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

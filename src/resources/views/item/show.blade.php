@@ -34,7 +34,7 @@
         </form>
         @else
         <!-- いいね登録ボタン -->
-        <form action="{{ route('store', $item) }}" method="POST">
+        <form action="{{ route('add', $item) }}" method="POST">
             @csrf
             <button type="submit" class="heart_logo"><img src="{{ asset('img/ハートロゴ_デフォルト.png') }}" alt="coachtech">({{ $item->good->count() }})</button>
         </form>
@@ -43,6 +43,7 @@
 
         <!-- コメント数 -->
         <img src="{{ asset('img/ふきだしロゴ.png') }}" alt="coachtech">
+        ({{ $item->comments->count() }})
 
         <!-- 購入手続き -->
         <div class="purchase__button">
@@ -63,12 +64,15 @@
         <div class="item_condition">{{ $item->condition }}</div>
 
         <!-- コメント -->
-        <p>コメント</p>
+        <p>コメント</p>({{ $item->comments->count() }})
         @foreach ($item->comments as $comment)
         <div class="comment__content">
             <span class="comment__user-name">
-                {{ Auth::user()->name }}
+                {{ $comment->user->name }}
             </span>
+            <!-- <span class="comment__user-name">
+                {{ Auth::user()->name }}
+            </span> -->
             <div class="comment__item">
                 <p>{{ $comment->comment }}</p>
             </div>
