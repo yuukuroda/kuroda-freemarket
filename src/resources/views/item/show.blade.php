@@ -24,31 +24,32 @@
         <div class="item_price">{{ $item->price }}</div>
 
         <!-- いいね -->
-        @auth
         @if($item->isGoodByAuthUser())
         <!-- いいね解除ボタン -->
-        <form action="{{ route('destroy', $item) }}" method="POST">
+        <form action="{{ route('destroy', $item->id) }}" method="POST">
             @csrf
             @method('DELETE')
             <button type="submit" class="heart_logo"><img src="{{ asset('img/ハートロゴ_ピンク.png') }}" alt="coachtech"> ({{ $item->good->count() }})</button>
         </form>
         @else
         <!-- いいね登録ボタン -->
-        <form action="{{ route('add', $item) }}" method="POST">
+        <form action="{{ route('add', $item->id) }}" method="POST">
             @csrf
             <button type="submit" class="heart_logo"><img src="{{ asset('img/ハートロゴ_デフォルト.png') }}" alt="coachtech">({{ $item->good->count() }})</button>
         </form>
         @endif
-        @endauth
 
         <!-- コメント数 -->
         <img src="{{ asset('img/ふきだしロゴ.png') }}" alt="coachtech">
         ({{ $item->comments->count() }})
 
         <!-- 購入手続き -->
-        <div class="purchase__button">
-            <button class="form__button-submit" type="submit">購入手続きへ</button>
-        </div>
+        <form action="{{route('purchase.create', ['itemId' => $item->id])}}" method="GET">
+            <!-- <form action="/purchase/{item_id}" method="get"> -->
+            <div class="purchase__button">
+                <button class="form__button-submit" type="submit">購入手続きへ</button>
+            </div>
+        </form>
 
         <!-- 商品説明 -->
         <h2>商品説明</h2>
@@ -68,17 +69,15 @@
         @foreach ($item->comments as $comment)
         <div class="comment__content">
             <span class="comment__user-name">
-                {{ $comment->user->name }}
+                {{ $comment->user?->name }}
             </span>
-            <!-- <span class="comment__user-name">
-                {{ Auth::user()->name }}
-            </span> -->
             <div class="comment__item">
                 <p>{{ $comment->comment }}</p>
             </div>
         </div>
         @endforeach
         <!-- コメントを送信する -->
+
         <form action="{{ route('store', ['itemId' => $item->id]) }}" method="POST">
             @csrf
             <p>商品へのコメント</p>

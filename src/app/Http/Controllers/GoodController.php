@@ -7,15 +7,15 @@ use App\Models\Item;
 
 class GoodController extends Controller
 {
-    public function add(Item $item)
+    public function add(Item $itemId)
     {
-        $item->good()->create(['user_id' => auth()->id()]);
+        $itemId->good()->create(['user_id' => auth()->id()]);
         return back(); 
     }
 
-    public function destroy(Item $item)
+    public function destroy(Item $itemId)
     {
-        $item->good()->where('user_id', auth()->id())->delete();
+        $itemId->good()->where('user_id', auth()->id())->delete();
         return back();
     }
 }
