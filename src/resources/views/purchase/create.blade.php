@@ -6,7 +6,8 @@
 
 @section('content')
 <div class="content">
-    <form>
+    <form class="form" action="/purchase/{item_id}/store" method="POST" novalidate>
+        @csrf
         <div class="left">
             <div class="top">
                 <!-- 商品画像 -->
@@ -37,6 +38,11 @@
                 <div class="content_title">
                     配送先
                 </div>
+                <a class="address-edit__link" href="{{ route('purchase.address', ['itemId' => $item->id]) }}">変更する</a>
+
+                <p>〒 {{ $addressData['post_code'] }}</p>
+                <p>{{ $addressData['address'] }}</p>
+                <p>{{ $addressData['building'] }}</p>
             </div>
 
 
@@ -47,6 +53,8 @@
                 <!-- 支払い方法 -->
                 <div class="payment_title">支払い方法</div>
 
+                <!-- 購入する -->
+                <button class="form__button-submit submit__button" type="submit">購入する</button>
             </div>
         </div>
     </form>

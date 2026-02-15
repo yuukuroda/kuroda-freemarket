@@ -13,7 +13,9 @@
 
 <body>
     <header class="header">
-        <img src="{{ asset('img/COACHTECHヘッダーロゴ.png') }}" alt="coachtech">
+        <a href="{{ route('item.index') }}">
+            <img src="{{ asset('img/COACHTECHヘッダーロゴ.png') }}" alt="coachtech">
+        </a>
 
         <ul class="header-nav">
             @if (Auth::check())
@@ -25,6 +27,8 @@
             </li>
             @endif
         </ul>
+
+        <a class="header-nav__link" href="{{ url('/mypage') }}">マイページ</a>
     </header>
 
     <main>

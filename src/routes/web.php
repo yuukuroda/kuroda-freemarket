@@ -25,9 +25,15 @@ Route::middleware('auth')->group(
     function () {
         Route::post('/item/{itemId}/good', [GoodController::class, 'add'])->name('add');
         Route::delete('/item/{itemId}/destroy', [GoodController::class, 'destroy'])->name('destroy');
+
         Route::post('/item/{itemId}/comment', [CommentController::class, 'store'])->name('store');
+
         Route::get('/purchase/{itemId}', [PurchaseController::class, 'create'])->name('purchase.create');
-        Route::get('/mypage/profile', [ProfileController::class, 'create'])->name('profile.create');
+        Route::get('/purchase/address/{itemId}', [PurchaseController::class, 'address'])->name('purchase.address');
+        Route::post('/purchase/address/{itemId}/update', [PurchaseController::class, 'update'])->name('purchase.address.update');
+
+        Route::get('/mypage', [ProfileController::class, 'index'])->name('profile.index');
+        Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.show');
         Route::post('/mypage/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     }
 );
