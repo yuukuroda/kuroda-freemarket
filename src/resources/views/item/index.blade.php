@@ -8,17 +8,23 @@
 <!-- ヘッダー -->
 
 <!-- おすすめ -->
-<span class="header-nav">おすすめ</span>
+<span id="tab-recommend" class="header-nav" style="cursor: pointer;">おすすめ</span>
 <!-- マイリスト -->
-<span class="header-nav">マイリスト</span>
+<span id="tab-mylist" class="header-nav" style="cursor: pointer;">マイリスト</span>
 
 
 <!-- 本文 -->
 
 <!-- 商品 -->
 @foreach ($items as $item)
-<a href="{{url('/item/' . $item->id)}}" class="show__link">
+<a href="{{url('/item/' . $item->id)}}" class="show__link @if($item->good) is-good @endif">
     <div class="product__display">
+        <!-- sold -->
+        @if($item->purchase()->exists())
+        <div class="sold-badge">
+            <span>Sold</span>
+        </div>
+        @endif
         <!-- 画像 -->
         <div class="item__img"><img class="img_preview" src="{{'/storage/'.$item['image']}}">
             <input type="hidden" name="image" value="{{ $item['image'] }}">

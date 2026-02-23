@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="content">
-    <form class="form" action="/purchase/{item_id}/store" method="POST" novalidate>
+    <form class="form" action="{{ route('purchase.store', ['itemId' => $item->id]) }}" method="POST" novalidate>
         @csrf
         <div class="left">
             <div class="top">
@@ -52,6 +52,7 @@
                 <div class="item_name">{{ $item->price }}</div>
                 <!-- 支払い方法 -->
                 <div class="payment_title">支払い方法</div>
+                <strong id="display_payment"></strong>
 
                 <!-- 購入する -->
                 <button class="form__button-submit submit__button" type="submit">購入する</button>
@@ -59,4 +60,15 @@
         </div>
     </form>
 </div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentSelect = document.getElementById('payment_method_select');
+            const displayPayment = document.getElementById('display_payment');
+            paymentSelect.addEventListener('change', function() {
+                const selectedText = paymentSelect.options[paymentSelect.selectedIndex].text;
+                displayPayment.textContent = selectedText;
+            });
+        });
+    </script>
 @endsection

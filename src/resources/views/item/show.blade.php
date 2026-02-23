@@ -59,7 +59,14 @@
 
         <!-- カテゴリー -->
         <p>カテゴリー</p>
-
+        <div class="item_category">
+        @foreach($item->categories as $category)
+        <span>
+            {{ $category->content }}
+        </span>
+        @endforeach
+        </div>
+        
         <!-- 商品状態 -->
         <p>商品の状態</p>
         <div class="item_condition">{{ $item->condition }}</div>

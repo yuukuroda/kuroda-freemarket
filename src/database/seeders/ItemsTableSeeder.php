@@ -23,6 +23,7 @@ class ItemsTableSeeder extends Seeder
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
                 'image' => 'img/Armani+Mens+Clock.jpg',
                 'condition' => '良好',
+                'categories' => ['アクセサリー'],
             ],
             [
                 'user_id' => '1',
@@ -32,6 +33,7 @@ class ItemsTableSeeder extends Seeder
                 'description' => '高速で信頼性の高いハードディスク',
                 'image' => 'img/HDD+Hard+Disk.jpg',
                 'condition' => '目立った傷や汚れなし',
+                'categories' => ['家電'],
             ],
             [
                 'user_id' => '1',
@@ -41,6 +43,7 @@ class ItemsTableSeeder extends Seeder
                 'description' => '新鮮な玉ねぎ3束のセット',
                 'image' => 'img/iLoveIMG+d.jpg',
                 'condition' => 'やや傷や汚れあり',
+                'categories' => ['キッチン'],
             ],
             [
                 'user_id' => '1',
@@ -50,6 +53,7 @@ class ItemsTableSeeder extends Seeder
                 'description' => 'クラシックなデザインの革靴',
                 'image' => 'img/Leather+Shoes+Product+Photo.jpg',
                 'condition' => '状態が悪い',
+                'categories' => ['ファッション'],
             ],
             [
                 'user_id' => '1',
@@ -59,6 +63,7 @@ class ItemsTableSeeder extends Seeder
                 'description' => '高性能なノートパソコン',
                 'image' => 'img/Living+Room+Laptop.jpg',
                 'condition' => '良好',
+                'categories' => ['家電'],
             ],
             [
                 'user_id' => '1',
@@ -68,6 +73,7 @@ class ItemsTableSeeder extends Seeder
                 'description' => '高音質のレコーディング用マイク',
                 'image' => 'img/Music+Mic+4632231.jpg',
                 'condition' => '目立った傷や汚れなし',
+                'categories' => ['家電'],
             ],
             [
                 'user_id' => '1',
@@ -77,6 +83,7 @@ class ItemsTableSeeder extends Seeder
                 'description' => 'おしゃれなショルダーバッグ',
                 'image' => 'img/Purse+fashion+pocket.jpg',
                 'condition' => 'やや傷や汚れあり',
+                'categories' => ['ファッション'],
             ],
             [
                 'user_id' => '1',
@@ -86,6 +93,7 @@ class ItemsTableSeeder extends Seeder
                 'description' => '使いやすいタンブラー',
                 'image' => 'img/Tumbler+souvenir.jpg',
                 'condition' => '状態が悪い',
+                'categories' => ['キッチン'],
             ],
             [
                 'user_id' => '1',
@@ -95,6 +103,7 @@ class ItemsTableSeeder extends Seeder
                 'description' => '手動のコーヒーミル',
                 'image' => 'img/Waitress+with+Coffee+Grinder.jpg',
                 'condition' => '良好',
+                'categories' => ['キッチン'],
             ],
             [
                 'user_id' => '1',
@@ -104,8 +113,46 @@ class ItemsTableSeeder extends Seeder
                 'description' => '便利なメイクアップセット',
                 'image' => 'img/%E5%A4%96%E5%87%BA%E3%83%A1%E3%82%A4%E3%82%AF%E3%82%A2%E3%83%83%E3%83%95%E3%82%9A%E3%82%BB%E3%83%83%E3%83%88.jpg',
                 'condition' => '目立った傷や汚れなし',
+                'categories' => ['レディース'],
             ]
         ];
-        DB::table('items')->insert($items);
+        // DB::table('items')->insert($items);
+
+        foreach ($items as $item) {
+            // 1. 商品テーブル（items）に挿入するデータを整理
+            $insertData = [
+                'user_id'     => $item['user_id'],
+                'name'        => $item['name'],
+                'price'       => $item['price'],
+                'brand'       => $item['brand'],
+                'description' => $item['description'],
+                'image'       => $item['image'],
+                'condition'   => $item['condition'],
+                'created_at'  => now(),
+                'updated_at'  => now(),
+            ];
+
+            // 2. 商品を保存し、そのレコードのIDを取得
+            $itemId = DB::table('items')->insertGetId($insertData);
+
+            // 3. 中間テーブル（category_item）への紐付け
+            if (isset($item['categories'])) {
+                foreach ($item['categories'] as $categoryContent) {
+                    // categoriesテーブルから content が一致するレコードの ID を取得
+                    $categoryId = DB::table('categories')
+                        ->where('content', $categoryContent)
+                        ->value('id');
+
+                    if ($categoryId) {
+                        // 中間テーブルに商品IDとカテゴリーIDのペアを挿入
+                        // テーブル名は作成したマイグレーションに合わせて調整してください（例: category_item）
+                        DB::table('category_item')->insert([
+                            'item_id'     => $itemId,
+                            'category_id' => $categoryId,
+                        ]);
+                    }
+                }
+            }
+        }
     }
 }

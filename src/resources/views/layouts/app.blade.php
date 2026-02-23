@@ -29,6 +29,8 @@
         </ul>
 
         <a class="header-nav__link" href="{{ url('/mypage') }}">マイページ</a>
+
+        <a class="header-nav__link" href="{{ url('/sell') }}">出品</a>
     </header>
 
     <main>

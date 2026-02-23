@@ -41,4 +41,10 @@ class Item extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function isSold()
+    {
+        // purchaseリレーションが存在するかどうかで判定
+        return $this->purchase()->exists();
+    }
 }

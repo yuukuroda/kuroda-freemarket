@@ -35,5 +35,16 @@ Route::middleware('auth')->group(
         Route::get('/mypage', [ProfileController::class, 'index'])->name('profile.index');
         Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.show');
         Route::post('/mypage/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+        // 購入処理（Stripeへ飛ばす）
+        Route::post('/purchase/{itemId}/store', [PurchaseController::class, 'store'])->name('purchase.store');
+
+        // 決済成功後の画面
+        Route::get('/purchase/success/{itemId}', [PurchaseController::class, 'success'])->name('purchase.success');
+
+        Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
+        Route::post('/sell/store', [ItemController::class, 'store'])->name('sell.store');
     }
+
+
 );

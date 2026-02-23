@@ -13,7 +13,9 @@
 
 <body>
     <header class="header">
-        <img src="img/COACHTECHヘッダーロゴ.png" alt="coachtech">
+        <a href="{{ route('item.index') }}">
+            <img src="{{ asset('img/COACHTECHヘッダーロゴ.png') }}" alt="coachtech">
+        </a>
     </header>
 
     <main>

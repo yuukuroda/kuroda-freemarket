@@ -6,13 +6,21 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\Comment;
 use App\Models\Good;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::all();
+        $query = Item::query();
+
+        if (Auth::check()) {
+            $query->where('user_id', '!=', Auth::id());
+        }
+
+        $items = $query->get();
+        // $items = Item::all();
         return view('item.index', compact('items'));
     }
 
@@ -22,5 +30,33 @@ class ItemController extends Controller
         $categories = Category::all();
         $good = Good::all();
         return view('item.show', compact('item', 'categories',));
+    }
+
+    public function create()
+    {
+        $user = Auth::user();
+        $item = Item::firstOrNew(['user_id' => $user->id]);
+        $categories = Category::all();
+
+        return view('item.create', compact('user', 'item', 'categories'));
+    }
+
+    public function store(Request $request)
+    {
+        $itemData = $request->only(['condition', 'name', 'brand', 'description', 'price']);
+        $itemData['user_id'] = Auth::id();
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->image->store('img', 'public');
+            $itemData['image'] = $imagePath;
+        }
+
+        $item = Item::create($itemData);
+
+        if ($request->has('categories')) {
+            $item->categories()->sync($request->categories);
+        }
+
+        return redirect('/');
     }
 }
