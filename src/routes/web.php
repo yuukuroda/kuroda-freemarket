@@ -36,11 +36,17 @@ Route::middleware('auth')->group(
         Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.show');
         Route::post('/mypage/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
-        // 購入処理（Stripeへ飛ばす）
-        Route::post('/purchase/{itemId}/store', [PurchaseController::class, 'store'])->name('purchase.store');
+        // 購入ボタン押下時のエントリーポイント
+        Route::post('/purchase/store/{itemId}', [PurchaseController::class, 'store'])->name('purchase.store');
 
-        // 決済成功後の画面
+        // カード決済：成功時（ここでテーブル保存と一覧リダイレクトを行う）
         Route::get('/purchase/success/{itemId}', [PurchaseController::class, 'success'])->name('purchase.success');
+
+        // コンビニ払い：完了時
+        Route::get('/purchase/konbini-complete/{itemId}', [PurchaseController::class, 'konbiniComplete'])->name('purchase.konbini_complete');
+
+        // キャンセル時
+        Route::get('/purchase/show/{itemId}', [PurchaseController::class, 'show'])->name('purchase.show');
 
         Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
         Route::post('/sell/store', [ItemController::class, 'store'])->name('sell.store');

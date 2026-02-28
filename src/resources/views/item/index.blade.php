@@ -8,9 +8,14 @@
 <!-- ヘッダー -->
 
 <!-- おすすめ -->
-<span id="tab-recommend" class="header-nav" style="cursor: pointer;">おすすめ</span>
+<a href="{{ url('/') }}">おすすめ</a>
+<!-- <span id="tab-recommend" class="header-nav" style="cursor: pointer;">おすすめ</span> -->
 <!-- マイリスト -->
-<span id="tab-mylist" class="header-nav" style="cursor: pointer;">マイリスト</span>
+<a href="{{ url('/?tab=mylist') }}"
+    class="header-nav {{ request('tab') === 'mylist' ? 'active' : '' }}">
+    マイリスト
+</a>
+<!-- <span id="tab-mylist" class="header-nav" style="cursor: pointer;">マイリスト</span> -->
 
 
 <!-- 本文 -->

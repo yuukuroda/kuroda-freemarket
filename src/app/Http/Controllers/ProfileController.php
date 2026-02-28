@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Profile;
+use App\Models\Purchase;
+use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
@@ -11,6 +13,7 @@ class ProfileController extends Controller
     public function edit()
     {
         $user = Auth::user();
+        
         $profile = Profile::firstOrNew(['user_id' => $user->id]);
 
         return view('profile.show', compact('user','profile'));
@@ -48,9 +51,21 @@ class ProfileController extends Controller
         // return redirect()->route('item.index');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('profile.index');
+        $user = Auth::user();
+        // クレリパラメータ 'page' を取得。デフォルトは 'sell'
+        $page = $request->query('page', 'sell');
+
+        if ($page === 'buy') {
+            // 購入した商品を取得（Purchaseモデル経由など）
+            $items = Purchase::where('user_id', $user->id)->with('item')->get()->pluck('item');
+        } else {
+            // 出品した商品を取得（Itemモデルで自分のユーザーIDのもの）
+            $items = Item::where('user_id', $user->id)->get();
+        }
+
+        return view('profile.index', compact('items', 'page'));
     }
 
     // public function store(Request $request)

@@ -11,17 +11,27 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $query = Item::query();
+        $tab = $request->query('tab', 'recommend');
 
-        if (Auth::check()) {
-            $query->where('user_id', '!=', Auth::id());
+        if ($tab === 'mylist') {
+            if (Auth::check()) {
+                $items = Item::whereHas('good', function ($query) {
+                    $query->where('user_id', Auth::id());
+                })->get();
+            } else {
+                $items = collect();
+            }
+        } else {
+            $query = Item::query();
+            if (Auth::check()) {
+                $query->where('user_id', '!=', Auth::id());
+            }
+            $items = $query->get();
         }
 
-        $items = $query->get();
-        // $items = Item::all();
-        return view('item.index', compact('items'));
+        return view('item.index', compact('items', 'tab'));
     }
 
     public function show($itemId)

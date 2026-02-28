@@ -11,7 +11,16 @@
 <form class="form" action="/mypage/profile/update" method="POST" enctype="multipart/form-data" novalidate>
     @csrf
     <!-- 画像 -->
-    <img class="img_preview" src="{{'/storage/'.$profile['image']}}">
+    <div class="profile-image">
+        @if (Auth::user()->profile?->image)
+        <img src="{{ asset('storage/' . Auth::user()->profile->image) }}"
+            style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+        @else
+        <img src="{{ asset('img/silhouette.jpg') }}"
+            alt="デフォルト画像"
+            style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; background-color: #eee;">
+        @endif
+    </div>
     <input type="hidden" name="image" value="{{ $profile['image'] }}">
     <div class="form__input--image">
         <input type="file" name="image"
