@@ -53,7 +53,7 @@ class PurchaseController extends Controller
     {
         $item = Item::findOrFail($itemId);
         $user = Auth::user();
-        
+
         $addressData = session('new_address', [
             'post_code' => $user->profile->post_code ?? '',
             'address'   => $user->profile->address ?? '',

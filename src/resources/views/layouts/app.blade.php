@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>coachtechfreemarket</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/common.css') }}" />
@@ -16,6 +16,11 @@
         <a href="{{ route('item.index') }}">
             <img src="{{ asset('img/COACHTECHヘッダーロゴ.png') }}" alt="coachtech">
         </a>
+
+        <!-- 検索欄 -->
+        <form action="/search" method="get">
+            <input class="search-form__item-input" type="text" name="keyword" placeholder="なにをお探しですか？" value="{{ request('keyword') }}">
+        </form>
 
         <ul class="header-nav">
             @if (Auth::check())

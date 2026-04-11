@@ -31,6 +31,21 @@ Laravel 環境構築
 src ディレクトリにある storage ディレクトリに権限を設定  
 chmod -R 777 storage
 
+## テストユーザー
+```
+user1
+・email:
+・password:
+
+user2
+・email:
+・password:
+
+シーディングデータの商品はuser1が5個、user2が5個出品しています。
+```
+
+## テスト環境構築
+
 ## URL
 
 ・商品一覧：http://localhost

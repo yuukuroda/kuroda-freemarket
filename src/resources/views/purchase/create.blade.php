@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/item/show.css') }}">
+<link rel="stylesheet" href="{{ asset('css/purchase/create.css') }}">
 @endsection
 
 @section('content')
@@ -14,10 +14,12 @@
                 <div class="item_img">
                     <img class="img_preview" src="{{'/storage/'.$item->image}}">
                 </div>
-                <!-- 商品名 -->
-                <div class="item_name">{{ $item->name }}</div>
-                <!-- 価格 -->
-                <div class="item_price">{{ $item->price }}</div>
+                <div class="item_info-text">
+                    <!-- 商品名 -->
+                    <div class="item_name-title">{{ $item->name }}</div>
+                    <!-- 価格 -->
+                    <div class="item_price-title">{{ $item->price }}</div>
+                </div>
             </div>
 
             <div class="middle">
@@ -35,40 +37,47 @@
             </div>
             <div class="bottom">
                 <!-- 配送先 -->
-                <div class="content_title">
-                    配送先
+                <div class="address-header">
+                    <div class="content_title">
+                        配送先
+                    </div>
+                    <a class="address-edit__link" href="{{ route('purchase.address', ['itemId' => $item->id]) }}">変更する</a>
                 </div>
-                <a class="address-edit__link" href="{{ route('purchase.address', ['itemId' => $item->id]) }}">変更する</a>
 
                 <p>〒 {{ $addressData['post_code'] }}</p>
                 <p>{{ $addressData['address'] }}</p>
                 <p>{{ $addressData['building'] }}</p>
             </div>
+        </div>
 
-
-            <div class="right">
+        <div class="right">
+            <div class="payment_row">
                 <!-- 商品代金 -->
-                <div class="payment_title">商品代金</div>
-                <div class="item_name">{{ $item->price }}</div>
+                <div class="payment-price">
+                    <div class="payment_title">商品代金</div>
+                    <div class="item_price">{{ $item->price }}</div>
+                </div>
                 <!-- 支払い方法 -->
-                <div class="payment_title">支払い方法</div>
-                <strong id="display_payment"></strong>
-
-                <!-- 購入する -->
-                <button class="form__button-submit submit__button" type="submit">購入する</button>
+                <div class="payment-method">
+                    <div class="payment_title">支払い方法</div>
+                    <strong id="display_payment"></strong>
+                </div>
             </div>
+
+            <!-- 購入する -->
+            <button class="form__button-submit submit__button" type="submit">購入する</button>
         </div>
     </form>
 </div>
 
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const paymentSelect = document.getElementById('payment_method_select');
-            const displayPayment = document.getElementById('display_payment');
-            paymentSelect.addEventListener('change', function() {
-                const selectedText = paymentSelect.options[paymentSelect.selectedIndex].text;
-                displayPayment.textContent = selectedText;
-            });
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentSelect = document.getElementById('payment_method_select');
+        const displayPayment = document.getElementById('display_payment');
+        paymentSelect.addEventListener('change', function() {
+            const selectedText = paymentSelect.options[paymentSelect.selectedIndex].text;
+            displayPayment.textContent = selectedText;
         });
-    </script>
+    });
+</script>
 @endsection

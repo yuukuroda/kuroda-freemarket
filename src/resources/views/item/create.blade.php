@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/item/index.css') }}">
+<link rel="stylesheet" href="{{ asset('css/item/create.css') }}">
 @endsection
 
 @section('content')
@@ -23,14 +23,16 @@
 
     <!-- カテゴリー -->
     <div class="content__title">カテゴリー</div>
-    @foreach($categories as $category)
-    <div class="category_selection">
-        <input type="checkbox" name="categories[]" value="{{ $category->id }}" id="category_{{ $category->id }}">
-        <label for="category_{{ $category->id }}">
-            {{ $category->content }}
-        </label>
+    <div class="category-container">
+        @foreach($categories as $category)
+        <div class="category_selection">
+            <input type="checkbox" name="categories[]" value="{{ $category->id }}" id="category_{{ $category->id }}">
+            <label for="category_{{ $category->id }}">
+                {{ $category->content }}
+            </label>
+        </div>
+        @endforeach
     </div>
-    @endforeach
 
     <!-- 商品の状態 -->
     <div class="content__title">商品の状態</div>
@@ -68,7 +70,7 @@
     <!-- 販売価格 -->
     <div class="content__title">販売価格</div>
     <div class="form__input--text">
-        <input type="text" name="price" value="{{ old('price') }}" />
+        <input type="number" name="price" value="{{ old('price') }}" />
     </div>
 
     <!-- 出品する -->
