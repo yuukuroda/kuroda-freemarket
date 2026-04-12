@@ -60,10 +60,10 @@ class ProfileController extends Controller
 
         if ($page === 'buy') {
             // 購入した商品を取得（Purchaseモデル経由など）
-            $items = Purchase::where('user_id', $user->id)->with('item')->get()->pluck('item');
+            $items = Purchase::where('user_id', $user->id)->with('item')->latest()->get()->pluck('item');
         } else {
             // 出品した商品を取得（Itemモデルで自分のユーザーIDのもの）
-            $items = Item::where('user_id', $user->id)->get();
+            $items = Item::where('user_id', $user->id)->latest()->get();
         }
 
         return view('profile.index', compact('items', 'page'));

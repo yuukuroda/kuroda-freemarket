@@ -28,7 +28,7 @@ class ItemRequest extends FormRequest
             'brand' => ['max:20'],
             'description' => ['required', 'max:255'],
             'image' => ['required', 'mimes:jpeg,png'],
-            'content' => ['required'],
+            'categories' => ['required'],
             'condition' => ['required'],
             'price' => ['required', 'integer', 'min:0'],
         ];
@@ -43,7 +43,7 @@ class ItemRequest extends FormRequest
             'description.max' => '商品の説明は255文字以内で入力してください',
             'image.required' => '商品画像を登録してください',
             'image.mines' => '「.png」または「.jpeg」形式でアップロードしてください',
-            'content.required' => '商品のカテゴリーを選択してください',
+            'categories.required' => '商品のカテゴリーを選択してください',
             'condition.required' => '商品の状態を選択してください',
             'price.required' => '値段を入力してください',
             'price.integer' => '数値で入力してください',

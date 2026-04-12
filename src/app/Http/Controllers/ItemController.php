@@ -36,22 +36,7 @@ class ItemController extends Controller
             $query->where('name', 'like', '%' . $keyword . '%');
         }
 
-        $items = $query->get();
-        // if ($tab === 'mylist') {
-        //     if (Auth::check()) {
-        //         $items = Item::whereHas('good', function ($query) {
-        //             $query->where('user_id', Auth::id());
-        //         })->get();
-        //     } else {
-        //         $items = collect();
-        //     }
-        // } else {
-        //     $query = Item::query();
-        //     if (Auth::check()) {
-        //         $query->where('user_id', '!=', Auth::id());
-        //     }
-        //     $items = $query->get();
-        // }
+        $items = $query->latest()->get();
 
         return view('item.index', compact('items', 'tab'));
     }
@@ -89,7 +74,7 @@ class ItemController extends Controller
             $item->categories()->sync($request->categories);
         }
 
-        return redirect('/');
+        return redirect()->route('profile.index', ['tab' => 'sell']);
     }
 
     public function search(Request $request)

@@ -1,7 +1,7 @@
 @extends('auth.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/auth/register.css') }}">
+<link rel="stylesheet" href="{{ asset('css/auth/register.css') }}?v={{ time() }}">
 @endsection
 
 @section('content')
@@ -46,9 +46,11 @@
         <div class="login-form__input--text">
             <input type="password" name="password_confirmation" value="{{ old('password') }}" />
         </div>
-        @error('password_confirmation')
-        {{ $message }}
-        @enderror
+        <div class="form__error">
+            @error('password_confirmation')
+            {{ $message }}
+            @enderror
+        </div>
         <!-- 登録する -->
         <div class="form__button">
             <button class="form__button-submit" type="submit">登録する</button>

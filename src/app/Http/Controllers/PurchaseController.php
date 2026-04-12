@@ -134,7 +134,7 @@ class PurchaseController extends Controller
         });
 
         // 商品一覧ページへリダイレクトし、メッセージを表示
-        return redirect('/');
+        return redirect()->route('profile.index', ['page' => 'buy']);
     }
 
     public function konbiniComplete(Request $request, $itemId)

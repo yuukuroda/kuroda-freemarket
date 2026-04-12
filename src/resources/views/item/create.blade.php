@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/item/create.css') }}">
+<link rel="stylesheet" href="{{ asset('css/item/create.css') }}?v={{ time() }}">
 @endsection
 
 @section('content')
@@ -39,7 +39,7 @@
         @endforeach
     </div>
     <div class="form__error">
-        @error('content')
+        @error('categories')
         {{ $message }}
         @enderror
     </div>

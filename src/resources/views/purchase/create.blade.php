@@ -35,7 +35,7 @@
                     </select>
                 </div>
                 <div class="form__error">
-                    @error('payment')
+                    @error('payment_method')
                     {{ $message }}
                     @enderror
                 </div>
