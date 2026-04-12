@@ -8,6 +8,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Models\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +33,17 @@ Route::middleware('auth')->group(
         })->middleware('auth')->name('verification.notice');
 
         // 2. メール内のリンクをクリックした時の処理
+        // メール内のリンクをクリックした時の処理（修正版）
         Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
             $request->fulfill();
-            return redirect('/profile.show');
+            $user = $request->user();
+            $hasProfile = Profile::where('user_id', $user->id)->exists();
+
+            if (!$hasProfile) {
+                return redirect()->route('profile.show');
+            }
+
+            return redirect('/');
         })->middleware(['auth', 'signed'])->name('verification.verify');
 
         // 3. 確認メールの再送処理
@@ -45,35 +54,36 @@ Route::middleware('auth')->group(
 
         Route::middleware('verified')->group(
             function () {
-        
-        Route::post('/item/{itemId}/good', [GoodController::class, 'add'])->name('add');
-        Route::delete('/item/{itemId}/destroy', [GoodController::class, 'destroy'])->name('destroy');
 
-        Route::post('/item/{itemId}/comment', [CommentController::class, 'store'])->name('store');
+                Route::post('/item/{itemId}/good', [GoodController::class, 'add'])->name('add');
+                Route::delete('/item/{itemId}/destroy', [GoodController::class, 'destroy'])->name('destroy');
 
-        Route::get('/purchase/{itemId}', [PurchaseController::class, 'create'])->name('purchase.create');
-        Route::get('/purchase/address/{itemId}', [PurchaseController::class, 'address'])->name('purchase.address');
-        Route::post('/purchase/address/{itemId}/update', [PurchaseController::class, 'update'])->name('purchase.address.update');
+                Route::post('/item/{itemId}/comment', [CommentController::class, 'store'])->name('store');
 
-        Route::get('/mypage', [ProfileController::class, 'index'])->name('profile.index');
-        Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.show');
-        Route::post('/mypage/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+                Route::get('/purchase/{itemId}', [PurchaseController::class, 'create'])->name('purchase.create');
+                Route::get('/purchase/address/{itemId}', [PurchaseController::class, 'address'])->name('purchase.address');
+                Route::post('/purchase/address/{itemId}/update', [PurchaseController::class, 'update'])->name('purchase.address.update');
 
-        // 購入ボタン押下時のエントリーポイント
-        Route::post('/purchase/store/{itemId}', [PurchaseController::class, 'store'])->name('purchase.store');
+                Route::get('/mypage', [ProfileController::class, 'index'])->name('profile.index');
+                Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.show');
+                Route::post('/mypage/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
-        // カード決済：成功時（ここでテーブル保存と一覧リダイレクトを行う）
-        Route::get('/purchase/success/{itemId}', [PurchaseController::class, 'success'])->name('purchase.success');
+                // 購入ボタン押下時のエントリーポイント
+                Route::post('/purchase/store/{itemId}', [PurchaseController::class, 'store'])->name('purchase.store');
 
-        // コンビニ払い：完了時
-        Route::get('/purchase/konbini-complete/{itemId}', [PurchaseController::class, 'konbiniComplete'])->name('purchase.konbini_complete');
+                // カード決済：成功時（ここでテーブル保存と一覧リダイレクトを行う）
+                Route::get('/purchase/success/{itemId}', [PurchaseController::class, 'success'])->name('purchase.success');
 
-        // キャンセル時
-        Route::get('/purchase/show/{itemId}', [PurchaseController::class, 'show'])->name('purchase.show');
+                // コンビニ払い：完了時
+                Route::get('/purchase/konbini-complete/{itemId}', [PurchaseController::class, 'konbiniComplete'])->name('purchase.konbini_complete');
 
-        Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
-        Route::post('/sell/store', [ItemController::class, 'store'])->name('sell.store');
-    });
+                // キャンセル時
+                Route::get('/purchase/show/{itemId}', [PurchaseController::class, 'show'])->name('purchase.show');
+
+                Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
+                Route::post('/sell/store', [ItemController::class, 'store'])->name('sell.store');
+            }
+        );
     }
 
 );

@@ -9,6 +9,8 @@ use App\Models\Purchase;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
+use App\Http\Requests\AddressRequest;
+use App\Http\Requests\PurchaseRequest;
 
 class PurchaseController extends Controller
 {
@@ -38,7 +40,7 @@ class PurchaseController extends Controller
         return view('purchase.address', compact('item', 'addressData'));
     }
 
-    public function update(Request $request, $itemId)
+    public function update(AddressRequest $request, $itemId)
     {
         session(['new_address' => [
             'post_code' => $request->post_code,
@@ -49,7 +51,7 @@ class PurchaseController extends Controller
         return redirect()->route('purchase.create', ['itemId' => $itemId]);
     }
 
-    public function store(Request $request, $itemId)
+    public function store(PurchaseRequest $request, $itemId)
     {
         $item = Item::findOrFail($itemId);
         $user = Auth::user();

@@ -17,6 +17,11 @@
         <input type="file" name="image"
             onchange="previewImage(this)" placeholder="画像を選択する" />
     </div>
+    <div class="form__error">
+        @error('image')
+        {{ $message }}
+        @enderror
+    </div>
 
     <!-- 商品の詳細 -->
     <h2>商品の詳細</h2>
@@ -33,6 +38,11 @@
         </div>
         @endforeach
     </div>
+    <div class="form__error">
+        @error('content')
+        {{ $message }}
+        @enderror
+    </div>
 
     <!-- 商品の状態 -->
     <div class="content__title">商品の状態</div>
@@ -45,6 +55,11 @@
             <option value="worst">状態が悪い</option>
         </select>
     </div>
+    <div class="form__error">
+        @error('condition')
+        {{ $message }}
+        @enderror
+    </div>
 
     <!-- 商品名と説明 -->
     <h2>商品と説明</h2>
@@ -54,11 +69,21 @@
     <div class="form__input--text">
         <input type="text" name="name" value="{{ old('name') }}" />
     </div>
+    <div class="form__error">
+        @error('name')
+        {{ $message }}
+        @enderror
+    </div>
 
     <!-- ブランド名 -->
     <div class="content__title">ブランド名</div>
     <div class="form__input--text">
         <input type="text" name="brand" value="{{ old('brand') }}" />
+    </div>
+    <div class="form__error">
+        @error('brand')
+        {{ $message }}
+        @enderror
     </div>
 
     <!-- 商品の説明 -->
@@ -66,11 +91,21 @@
     <div class="form__input--text">
         <input type="textarea" name="description" value="{{ old('description') }}" />
     </div>
+    <div class="form__error">
+        @error('description')
+        {{ $message }}
+        @enderror
+    </div>
 
     <!-- 販売価格 -->
     <div class="content__title">販売価格</div>
     <div class="form__input--text">
         <input type="number" name="price" value="{{ old('price') }}" />
+    </div>
+    <div class="form__error">
+        @error('price')
+        {{ $message }}
+        @enderror
     </div>
 
     <!-- 出品する -->

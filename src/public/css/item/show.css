@@ -119,6 +119,17 @@
     box-sizing: border-box;
 }
 
+.form__error {
+    color: #FF5555;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    min-height: 20px;
+    line-height: 1.4;
+    display: block;
+}
+
 @media screen and (max-width: 1024px) {
     .content {
         flex-direction: column;

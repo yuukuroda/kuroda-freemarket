@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
             'name' => 'Test User',
             'image' => 'profiles/dog1.jfif',
-            'post_code' => '1234567',
+            'post_code' => '123-4567',
             'address' => 'testcity',
             'building' => 'testtower',
         ]);
@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => 2,
             'name' => '山田',
             'image' => 'profiles/dog2.jfif',
-            'post_code' => '1234567',
+            'post_code' => '123-4567',
             'address' => 'yamadacity',
             'building' => 'yamadatower',
         ]);

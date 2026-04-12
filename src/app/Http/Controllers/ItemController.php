@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ItemRequest;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\Comment;
@@ -63,7 +64,7 @@ class ItemController extends Controller
         return view('item.show', compact('item', 'categories',));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $user = Auth::user();
         $item = Item::firstOrNew(['user_id' => $user->id]);
@@ -72,7 +73,7 @@ class ItemController extends Controller
         return view('item.create', compact('user', 'item', 'categories'));
     }
 
-    public function store(Request $request)
+    public function store(ItemRequest $request)
     {
         $itemData = $request->only(['condition', 'name', 'brand', 'description', 'price']);
         $itemData['user_id'] = Auth::id();

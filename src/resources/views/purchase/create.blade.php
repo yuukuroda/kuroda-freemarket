@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/purchase/create.css') }}">
+<link rel="stylesheet" href="{{ asset('css/purchase/create.css') }}?v={{ time() }}">
 @endsection
 
 @section('content')
@@ -33,6 +33,11 @@
                         <option value="konbini">コンビニ支払い</option>
                         <option value="card">カード支払い</option>
                     </select>
+                </div>
+                <div class="form__error">
+                    @error('payment')
+                    {{ $message }}
+                    @enderror
                 </div>
             </div>
             <div class="bottom">

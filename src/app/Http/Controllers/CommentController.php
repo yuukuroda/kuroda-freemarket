@@ -14,7 +14,7 @@ class CommentController extends Controller
         $comment = new \App\Models\Comment();
 
         $comment->user_id = \Illuminate\Support\Facades\Auth::id();
-        $comment->item_id = $itemId; // ここで引数の $itemId を確実に代入します
+        $comment->item_id = $itemId;
         $comment->comment = $request->comment;
 
         // 3. データベースへ保存実行

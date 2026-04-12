@@ -1,0 +1,45 @@
+/* 基本設定 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    background-color: #ffffff;
+}
+
+/* ヘッダー全体 */
+.header {
+    background-color: #000000;
+    padding: 15px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* ロゴ */
+.header a img {
+    height: 30px;
+    display: block;
+}
+
+.search-form__item-input::placeholder {
+    color: #999;
+}
+
+/* レスポンシブ対応 */
+@media screen and (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+
+    .header form {
+        width: 100%;
+        max-width: none;
+        order: 3; /* モバイルでは検索窓を下に */
+    }
+
+    .header-nav, .header-nav__link {
+        font-size: 14px;
+    }
+}

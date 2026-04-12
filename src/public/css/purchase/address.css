@@ -42,6 +42,30 @@
     border-radius: 5px;
 }
 
+.back-link-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 戻るリンク（Figmaの「変更する」リンクなどに近い青色） */
+.back-link {
+    color: #0051FF;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.form__error {
+    color: #FF5555;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    min-height: 20px;
+    line-height: 1.4;
+    display: block;
+}
+
 @media screen and (min-width: 768px) and (max-width: 850px) {
     .content {
         width: 80%; /* 画面に対して少し余裕を持たせる */
