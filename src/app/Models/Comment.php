@@ -10,7 +10,7 @@ class Comment extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'itemr_id',
+        'item_id',
         'comment'
     ];
 

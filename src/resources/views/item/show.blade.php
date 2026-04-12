@@ -127,7 +127,7 @@
                     <textarea name="comment"></textarea>
                 </div>
                 <div class="form__error">
-                    @error('comments')
+                    @error('comment')
                     {{ $message }}
                     @enderror
                 </div>

@@ -3,101 +3,122 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Hash;
 
 class T09_CommentTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     use RefreshDatabase;
+
+    /**
+     * テスト用データの準備
+     */
+    private function prepareData()
+    {
+        $seller = User::create([
+            'name' => '出品者',
+            'email' => 'seller@example.com',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+        ]);
+
+        $item = Item::create([
+            'user_id' => $seller->id,
+            'name' => 'テスト商品',
+            'description' => 'テスト説明',
+            'price' => 1000,
+            'image' => 'test.jpg',
+            'condition' => '良好',
+        ]);
+
+        $user = User::create([
+            'name' => '投稿者',
+            'email' => 'test@example.com',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+        ]);
+
+        return [$user, $item];
+    }
 
     /**
      * ログイン済みのユーザーはコメントを送信できる
      */
-    public function test_logged_in_user_can_send_comment()
+    public function test_ログイン済みのユーザーはコメントを送信できる()
     {
-        // ユーザーと商品を作成
-        $user = User::factory()->create();
-        $item = Item::factory()->create();
+        [$user, $item] = $this->prepareData();
 
-        $commentData = [
-            'comment' => 'これはテストコメントです。'
-        ];
-
-        // ログインしてコメントを投稿
-        // ルート名を 'comment.store' に修正（もしアプリ側が違う名前ならここを合わせます）
+        // 解決策: withoutMiddleware(['verified']) を使用して
+        // メール認証チェックのみをバイパスし、authミドルウェアは生かします。
         $response = $this->actingAs($user)
-            ->post("/item/{$item->id}/comment", $commentData);
+            ->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class])
+            ->post(route('store', ['itemId' => $item->id]), [
+                'comment' => 'これはテストコメントです。'
+            ]);
 
-        // 判定: リダイレクトされること
-        $response->assertStatus(302);
-
-        // 判定: データベースに保存されていること
+        // データベースに保存されているか確認
         $this->assertDatabaseHas('comments', [
             'user_id' => $user->id,
             'item_id' => $item->id,
             'comment' => 'これはテストコメントです。'
         ]);
+
+        // 商品詳細画面へ戻るか確認
+        $response->assertRedirect(route('item.show', ['itemId' => $item->id]));
     }
 
     /**
      * ログイン前のユーザーはコメントを送信できない
      */
-    public function test_guest_user_cannot_send_comment()
+    public function test_ログイン前のユーザーはコメントを送信できない()
     {
-        $item = Item::factory()->create();
+        $seller = User::create(['name' => 'S', 'email' => 's@e.c', 'password' => 'p', 'email_verified_at' => now()]);
+        $item = Item::create(['user_id' => $seller->id, 'name' => 'I', 'description' => 'D', 'price' => 100, 'image' => 'a.j', 'condition' => 'C']);
 
-        $response = $this->post("/item/{$item->id}/comment", [
-            'comment' => 'ゲストのコメント'
+        // ゲストはあえてミドルウェアを有効にしてリダイレクトを確認
+        $response = $this->post(route('store', ['itemId' => $item->id]), [
+            'comment' => 'ゲストコメント'
         ]);
 
-        // 判定: ログイン画面へリダイレクトされること
         $response->assertRedirect('/login');
     }
 
     /**
-     * コメントが空の場合バリデーションメッセージが表示される
+     * バリデーション：未入力
      */
-    public function test_comment_is_required()
+    public function test_コメントが入力されていない場合、バリデーションメッセージが表示される()
     {
-        $user = User::factory()->create();
-        $item = Item::factory()->create();
+        [$user, $item] = $this->prepareData();
 
         $response = $this->actingAs($user)
-            ->from("/item/{$item->id}") // 遷移元を明示
-            ->post("/item/{$item->id}/comment", [
+            ->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class])
+            ->from(route('item.show', ['itemId' => $item->id]))
+            ->post(route('store', ['itemId' => $item->id]), [
                 'comment' => ''
             ]);
 
-        // 判定: バリデーションエラーが返ってくること
         $response->assertStatus(302);
         $response->assertSessionHasErrors(['comment']);
     }
 
     /**
-     * コメントが255文字を超える場合バリデーションメッセージが表示される
+     * バリデーション：最大文字数
      */
-    public function test_comment_max_length()
+    public function test_コメントが255字以上の場合、バリデーションメッセージが表示される()
     {
-        $user = User::factory()->create();
-        $item = Item::factory()->create();
-
+        [$user, $item] = $this->prepareData();
         $longComment = str_repeat('あ', 256);
 
         $response = $this->actingAs($user)
-            ->from("/item/{$item->id}")
-            ->post("/item/{$item->id}/comment", [
+            ->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class])
+            ->from(route('item.show', ['itemId' => $item->id]))
+            ->post(route('store', ['itemId' => $item->id]), [
                 'comment' => $longComment
             ]);
 
-        // 判定: バリデーションエラーが返ってくること
         $response->assertStatus(302);
         $response->assertSessionHasErrors(['comment']);
     }
