@@ -5,6 +5,11 @@
 @endsection
 
 @section('content')
+@if (session('message'))
+<div class="alert alert-success" style="color: #155724; background-color: #d4edda; border-color: #c3e6cb; padding: 15px; margin: 20px 0; border-radius: 4px; text-align: center;">
+    {{ session('message') }}
+</div>
+@endif
 <div class="content">
     <div class="top">
         <!-- ユーザー画像 -->
@@ -45,8 +50,6 @@
             </div>
             @endforeach
         </div>
-
     </div>
-
 </div>
 @endsection

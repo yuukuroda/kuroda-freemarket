@@ -1,12 +1,10 @@
-/* 基本設定 */
-body {
+.body {
     margin: 0;
     padding: 0;
     font-family: 'Inter', 'Noto Sans JP', sans-serif;
     background-color: #ffffff;
 }
 
-/* ヘッダー全体 */
 .header {
     background-color: #000000;
     padding: 15px 40px;
@@ -16,16 +14,14 @@ body {
     gap: 20px;
 }
 
-/* ロゴ */
 .header a img {
     height: 30px;
     display: block;
 }
 
-/* 検索フォーム */
 .header form {
     flex: 1;
-    max-width: 600px; /* 検索窓が広がりすぎないように制限 */
+    max-width: 600px;
 }
 
 .search-form__item-input {
@@ -41,7 +37,6 @@ body {
     color: #999;
 }
 
-/* ナビゲーション */
 .header-nav {
     display: flex;
     align-items: center;
@@ -79,7 +74,6 @@ body {
     opacity: 0.7;
 }
 
-/* 出品ボタン（一番右） */
 .header > .header-nav__link:last-child {
     background-color: #ffffff;
     color: #000000;
@@ -93,7 +87,6 @@ body {
     opacity: 1;
 }
 
-/* レスポンシブ対応 */
 @media screen and (max-width: 768px) {
     .header {
         flex-direction: column;
@@ -103,7 +96,7 @@ body {
     .header form {
         width: 100%;
         max-width: none;
-        order: 3; /* モバイルでは検索窓を下に */
+        order: 3; 
     }
 
     .header-nav, .header-nav__link {

@@ -116,10 +116,8 @@ class ItemsTableSeeder extends Seeder
                 'categories' => ['レディース'],
             ]
         ];
-        // DB::table('items')->insert($items);
 
         foreach ($items as $item) {
-            // 1. 商品テーブル（items）に挿入するデータを整理
             $insertData = [
                 'user_id'     => $item['user_id'],
                 'name'        => $item['name'],
@@ -132,20 +130,15 @@ class ItemsTableSeeder extends Seeder
                 'updated_at'  => now(),
             ];
 
-            // 2. 商品を保存し、そのレコードのIDを取得
             $itemId = DB::table('items')->insertGetId($insertData);
 
-            // 3. 中間テーブル（category_item）への紐付け
             if (isset($item['categories'])) {
                 foreach ($item['categories'] as $categoryContent) {
-                    // categoriesテーブルから content が一致するレコードの ID を取得
                     $categoryId = DB::table('categories')
                         ->where('content', $categoryContent)
                         ->value('id');
 
                     if ($categoryId) {
-                        // 中間テーブルに商品IDとカテゴリーIDのペアを挿入
-                        // テーブル名は作成したマイグレーションに合わせて調整してください（例: category_item）
                         DB::table('category_item')->insert([
                             'item_id'     => $itemId,
                             'category_id' => $categoryId,

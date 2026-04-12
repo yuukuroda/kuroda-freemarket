@@ -72,18 +72,16 @@ class PurchaseController extends Controller
                     'building'  => $addressData['building'],
                     'payment'   => 'コンビニ支払い',
                 ]);
-                // セッション削除
                 session()->forget('new_address');
             });
         }
-        // Stripeのシークレットキーをセット
+      
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $successUrl = ($request->payment_method === 'card')
             ? route('purchase.success', ['itemId' => $item->id])
             : route('purchase.konbini_complete', ['itemId' => $item->id]);
 
-        // Stripe Checkoutセッションの作成
         $session = Session::create([
             'payment_method_types' => [$request->payment_method], // 'card' or 'konbini'
             'line_items' => [[
@@ -97,13 +95,10 @@ class PurchaseController extends Controller
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            // 決済成功時のリダイレクト先
             'success_url' => route('purchase.success', ['itemId' => $item->id]),
-            // 決済キャンセル時のリダイレクト先
             'cancel_url' => route('purchase.create', ['itemId' => $item->id]),
         ]);
 
-        // Stripeの決済画面へリダイレクト
         return redirect($session->url);
     }
 
@@ -111,13 +106,11 @@ class PurchaseController extends Controller
     {
         $user = Auth::user();
 
-        // 1. 保存するための住所データを取得（セッションまたはプロフィールから）
         $addressData = session('new_address', [
             'post_code' => $user->profile->post_code ?? '',
             'address'   => $user->profile->address ?? '',
             'building'  => $user->profile->building ?? '',
         ]);
-        // データベースに購入情報を保存
         DB::transaction(function () use ($itemId, $addressData) {
             Purchase::create([
                 'user_id' => Auth::id(),
@@ -125,16 +118,11 @@ class PurchaseController extends Controller
                 'post_code' => $addressData['post_code'],
                 'address'   => $addressData['address'],
                 'building'  => $addressData['building'],
-                // カード支払いの成功時にここに来るため、固定で 'card' または 
-                // 必要に応じて Stripe セッションから取得した値を入れます
                 'payment' => 'カード支払い',
             ]);
-
-            // 商品の状態を「売り切れ」に更新する場合などの処理をここに書く
         });
 
-        // 商品一覧ページへリダイレクトし、メッセージを表示
-        return redirect()->route('profile.index', ['page' => 'buy']);
+        return redirect()->route('profile.index', ['page' => 'buy'])->with('message', '商品の購入が完了しました。');
     }
 
     public function konbiniComplete(Request $request, $itemId)
@@ -146,7 +134,6 @@ class PurchaseController extends Controller
             'building'  => $user->profile->building ?? '',
         ]);
 
-        // コンビニ払いの情報をDBに保存
         DB::transaction(function () use ($itemId, $addressData) {
             \App\Models\Purchase::create([
                 'user_id'   => Auth::id(),
@@ -154,13 +141,12 @@ class PurchaseController extends Controller
                 'post_code' => $addressData['post_code'],
                 'address'   => $addressData['address'],
                 'building'  => $addressData['building'],
-                'payment'   => 'コンビニ支払い', // コンビニ支払いを記録
+                'payment'   => 'コンビニ支払い', 
             ]);
 
             session()->forget('new_address');
         });
 
-        // 保存後、案内画面を表示（または一覧へ戻す）
         return view('purchase.konbini_notified', ['itemId' => $itemId]);
     }
 }

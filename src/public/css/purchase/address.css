@@ -47,7 +47,6 @@
     margin-top: 20px;
 }
 
-/* 戻るリンク（Figmaの「変更する」リンクなどに近い青色） */
 .back-link {
     color: #0051FF;
     text-decoration: none;
@@ -68,11 +67,11 @@
 
 @media screen and (min-width: 768px) and (max-width: 850px) {
     .content {
-        width: 80%; /* 画面に対して少し余裕を持たせる */
+        width: 80%; 
     }
 
     .form {
-        max-width: 550px; /* フォームを少し横に広げる */
+        max-width: 550px;
         padding: 40px;
     }
 
@@ -83,11 +82,11 @@
 
 @media screen and (min-width: 1400px) and (max-width: 1540px) {
     .content {
-        width: 60%; /* 中央に寄せるために幅を制限 */
+        width: 60%;
     }
 
     .form {
-        max-width: 680px; /* 指定されたサイズ感に合わせる */
+        max-width: 680px;
         padding: 60px;
     }
 
@@ -97,7 +96,7 @@
     }
 
     .login-form__input--text input {
-        padding: 18px; /* 入力欄を大きくしてクリックしやすくする */
+        padding: 18px;
         font-size: 18px;
     }
 

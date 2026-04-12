@@ -74,7 +74,7 @@ class ItemController extends Controller
             $item->categories()->sync($request->categories);
         }
 
-        return redirect()->route('profile.index', ['tab' => 'sell']);
+        return redirect()->route('profile.index', ['tab' => 'sell'])->with('message', '商品の出品が完了しました。');
     }
 
     public function search(Request $request)

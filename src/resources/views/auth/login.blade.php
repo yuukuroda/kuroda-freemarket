@@ -30,7 +30,6 @@
             {{ $message }}
             @enderror
         </div>
-        <!-- ログイン情報が登録されていません -->
 
         <!-- ログインする -->
         <div class="form__button">

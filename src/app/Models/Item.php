@@ -44,7 +44,6 @@ class Item extends Model
 
     public function isSold()
     {
-        // purchaseリレーションが存在するかどうかで判定
         return $this->purchase()->exists();
     }
 }

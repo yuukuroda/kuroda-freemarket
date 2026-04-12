@@ -24,9 +24,6 @@
             @endif
             <input class="search-form__item-input" type="text" name="keyword" placeholder="なにをお探しですか？" value="{{ request('keyword') }}">
         </form>
-        <!-- <form action="/search" method="get">
-            <input class="search-form__item-input" type="text" name="keyword" placeholder="なにをお探しですか？" value="{{ request('keyword') }}">
-        </form> -->
 
         <ul class="header-nav">
             @if (Auth::check())

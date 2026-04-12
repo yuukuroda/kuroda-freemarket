@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(CategoriesTableSeeder::class);
-        // \App\Models\User::factory(10)->create();
         User::create([
             'id' => 1,
             'name' => 'Test User',

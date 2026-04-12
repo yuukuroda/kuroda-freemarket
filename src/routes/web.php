@@ -27,13 +27,9 @@ Route::get('/search', [ItemController::class, 'search']);
 
 Route::middleware('auth')->group(
     function () {
-        // 1. メール確認の通知画面を表示するルート
         Route::get('/email/verify', function () {
             return view('auth.verify-email');
         })->middleware('auth')->name('verification.notice');
-
-        // 2. メール内のリンクをクリックした時の処理
-        // メール内のリンクをクリックした時の処理（修正版）
         Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
             $request->fulfill();
             $user = $request->user();
@@ -45,8 +41,6 @@ Route::middleware('auth')->group(
 
             return redirect('/');
         })->middleware(['auth', 'signed'])->name('verification.verify');
-
-        // 3. 確認メールの再送処理
         Route::post('/email/verification-notification', function (Request $request) {
             $request->user()->sendEmailVerificationNotification();
             return back()->with('message', '確認メールを再送信しました。');
@@ -68,16 +62,12 @@ Route::middleware('auth')->group(
                 Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.show');
                 Route::post('/mypage/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
-                // 購入ボタン押下時のエントリーポイント
                 Route::post('/purchase/store/{itemId}', [PurchaseController::class, 'store'])->name('purchase.store');
 
-                // カード決済：成功時（ここでテーブル保存と一覧リダイレクトを行う）
                 Route::get('/purchase/success/{itemId}', [PurchaseController::class, 'success'])->name('purchase.success');
 
-                // コンビニ払い：完了時
                 Route::get('/purchase/konbini-complete/{itemId}', [PurchaseController::class, 'konbiniComplete'])->name('purchase.konbini_complete');
 
-                // キャンセル時
                 Route::get('/purchase/show/{itemId}', [PurchaseController::class, 'show'])->name('purchase.show');
 
                 Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
