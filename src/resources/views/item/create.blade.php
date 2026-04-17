@@ -48,11 +48,11 @@
     <div class="content__title">商品の状態</div>
     <div class="condition_selection">
         <select name="condition" class="form-select">
-            <option value="" disabled selected>選択してください</option>
-            <option value="good">良好</option>
-            <option value="normal">目立った傷や汚れなし</option>
-            <option value="bad">やや傷や汚れあり</option>
-            <option value="worst">状態が悪い</option>
+            <option value="" disabled {{ old('condition') ? '' : 'selected' }}>選択してください</option>
+            <option {{ old('condition') == '良好' ? 'selected' : '' }}>良好</option>
+            <option {{ old('condition') == '目立った傷や汚れなし' ? 'selected' : '' }}>目立った傷や汚れなし</option>
+            <option {{ old('condition') == 'やや傷や汚れあり' ? 'selected' : '' }}>やや傷や汚れあり</option>
+            <option {{ old('condition') == '状態が悪い' ? 'selected' : '' }}>状態が悪い</option>
         </select>
     </div>
     <div class="form__error">

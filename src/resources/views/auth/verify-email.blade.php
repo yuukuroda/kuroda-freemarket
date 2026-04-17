@@ -1,3 +1,11 @@
+@extends('auth.app')
+
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/auth/verify-email.css') }}?v={{ time() }}">
+@endsection
+
+@section('content')
+
 @if (session('message'))
 <div class="alert">
     {{ session('message') }}
@@ -21,5 +29,4 @@
         認証メールを再送する
     </button>
 </form>
-
-</div>
+@endsection
