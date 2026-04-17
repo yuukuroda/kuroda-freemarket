@@ -3,12 +3,13 @@
 フリマアプリ
 
 ## プロジェクト概要
+
 アイテムの出品と購入を行うためのフリマアプリを開発する
 
 ## 環境構築
-
+```
 Docker ビルド  
-・git clone git@github.com:yuukuroda/kuroda-kadai2.git  
+・git clone git@github.com:yuukuroda/kuroda-freemarket.git  
 ・docker-compose up -d --build
 
 Laravel 環境構築  
@@ -16,14 +17,12 @@ Laravel 環境構築
 ・composer install  
 ・cp .env.example .env、環境変数を以下に変更
 
-```
 　　DB_CONNECTION=mysql
 　　DB_HOST=mysql
 　　DB_PORT=3306
 　　DB_DATABASE=laravel_db
 　　DB_USERNAME=laravel_user
 　　DB_PASSWORD=laravel_pass
-```
 
 ・php artisan migrate  
 ・php artisan key:generate  
@@ -33,8 +32,10 @@ Laravel 環境構築
 "The stream or file could not be opened"エラーが発生した場合  
 src ディレクトリにある storage ディレクトリに権限を設定  
 chmod -R 777 storage
+```
 
 ## テストユーザー
+
 ```
 user1
 ・email:test@example.com
@@ -48,42 +49,30 @@ user2
 ```
 
 ## テスト環境構築
-database.phpの編集
+```
+テスト用のデータベースを作成
 ・mysql -u root -p
 ・CREATE DATABASE demo_test;
-・database.phpを開き、mysqlの配列部分をコピーして、mysql_testを作成
-・配列部分を以下のように編集
-　
-```
-　'database' => 'demo_test',
-　'username' => 'root',
-  'password' => 'root',
-```
 
 .env.testingの作成
 ・cp .env .env.testing、環境変数を以下に変更
-```
+
 　APP_ENV=test
 　APP_KEY=
 　DB_DATABASE=demo_test
 　DB_USERNAME=root
 　DB_PASSWORD=root
-```
+
 ・php artisan key:generate --env=testing
 ・php artisan config:clear
 
-テスト用データベースの作成
+テスト用データベースのテーブルを作成
 ・php artisan migrate --env=testing
 
-phpunitファイルの編集
-・phpunit.xmlを開き、DB_CONNECTIONとDB_DATABASEを以下のように変更
-```
-　<server name="DB_CONNECTION" value="mysql_test"/>
-　<server name="DB_DATABASE" value="demo_test"/>
 ```
 
 ## URL
-
+```
 ・商品一覧：http://localhost
 ・商品一覧（マイリスト）：http://localhost/?tab=mylist
 ・商品検索（おすすめ内）：http://localhost/?keyword=商品名
@@ -98,15 +87,16 @@ phpunitファイルの編集
 ・ログイン画面：http://localhost/login
 ・会員登録画面：http://localhost/register
 ※ {itemId} には商品のID（数字）が入ります。
+```
 
 ## 使用技術（実行環境）
-
+```
 ・php:8.1.33  
 ・laravel:8.83.8  
 ・mysql:8.0.26  
 ・nginx:1.21.1
+```
 
 ## ER 図
 
 ![ER図](ER.drawio.png)
-
