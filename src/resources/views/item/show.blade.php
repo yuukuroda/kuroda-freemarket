@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/item/show.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('css/item/show.css') }}">
 @endsection
 
 @section('content')
@@ -108,9 +108,19 @@
 
             <div class="comment__content2">
                 @foreach ($item->comments as $comment)
-                <span class="comment__user-name">
-                    {{ $comment->user?->name }}
-                </span>
+                <div class="comment__user-info">
+                    <div class="comment__user-image">
+                        @if($comment->user?->profile?->image)
+                        <img src="{{ asset('storage/' . $comment->user->profile->image) }}" alt="ユーザー画像">
+                        @else
+                        <div class="default-user-icon"></div>
+                        @endif
+                    </div>
+                    <span class="comment__user-name">
+                        {{ $comment->user?->name }}
+                    </span>
+                </div>
+
                 <div class="comment__item">
                     <p>{{ $comment->comment }}</p>
                 </div>

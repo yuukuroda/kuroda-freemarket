@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/profile/show.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('css/profile/show.css') }}">
 @endsection
 
 @section('content')
@@ -20,8 +20,7 @@
                     style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
                 @else
                 <img src="{{ asset('img/silhouette.jpg') }}"
-                    alt="デフォルト画像"
-                    style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; background-color: #eee;">
+                    alt="デフォルト画像">
                 @endif
             </div>
             <input type="hidden" name="image" value="{{ $profile['image'] }}">

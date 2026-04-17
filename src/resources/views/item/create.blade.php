@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/item/create.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('css/item/create.css') }}">
 @endsection
 
 @section('content')
@@ -14,8 +14,10 @@
     <!-- 商品画像 -->
     <div class="content__title">商品画像</div>
     <div class="form__input--image">
-        <input type="file" name="image"
-            onchange="previewImage(this)" placeholder="画像を選択する" />
+        <label class="image-label">
+            <input type="file" name="image"
+                onchange="previewImage(this)" placeholder="画像を選択する" />
+        </label>
     </div>
     <div class="form__error">
         @error('image')

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ItemRequest;
 use App\Models\Category;
 use App\Models\Item;
-use App\Models\Comment;
 use App\Models\Good;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;

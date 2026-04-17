@@ -1,7 +1,7 @@
 @extends('auth.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/auth/verify-email.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('css/auth/verify-email.css') }}">
 @endsection
 
 @section('content')

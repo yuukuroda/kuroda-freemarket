@@ -68,8 +68,6 @@ Route::middleware('auth')->group(
 
                 Route::get('/purchase/konbini-complete/{itemId}', [PurchaseController::class, 'konbiniComplete'])->name('purchase.konbini_complete');
 
-                Route::get('/purchase/show/{itemId}', [PurchaseController::class, 'show'])->name('purchase.show');
-
                 Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
                 Route::post('/sell/store', [ItemController::class, 'store'])->name('sell.store');
             }
