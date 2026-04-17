@@ -18,7 +18,7 @@ class T12_AddressTest extends TestCase
     {
         $user = User::create([
             'name' => 'テストユーザー',
-            'email' => 'test@example.com',
+            'email' => 'test3@example.com',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);

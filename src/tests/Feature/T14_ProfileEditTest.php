@@ -16,7 +16,7 @@ class T14_ProfileEditTest extends TestCase
     {
         $user = User::create([
             'name' => 'テストユーザー',
-            'email' => 'test@example.com',
+            'email' => 'test5@example.com',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);

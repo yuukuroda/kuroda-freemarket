@@ -7,14 +7,15 @@
 アイテムの出品と購入を行うためのフリマアプリを開発する
 
 ## 環境構築
+
 ```
-Docker ビルド  
-・git clone git@github.com:yuukuroda/kuroda-freemarket.git  
+Docker ビルド
+・git clone git@github.com:yuukuroda/kuroda-freemarket.git
 ・docker-compose up -d --build
 
-Laravel 環境構築  
-・docker-compose exec php bash  
-・composer install  
+Laravel 環境構築
+・docker-compose exec php bash
+・composer install
 ・cp .env.example .env、環境変数を以下に変更
 
 　　DB_CONNECTION=mysql
@@ -28,13 +29,13 @@ stripeの設定
 　　STRIPE_KEY=XXX
 　　STRIPE_SECRET=XXX
 
-・php artisan migrate  
-・php artisan key:generate  
+・php artisan migrate
+・php artisan key:generate
 ・php artisan db:seed
 ・php artisan storage:link
 
-"The stream or file could not be opened"エラーが発生した場合  
-src ディレクトリにある storage ディレクトリに権限を設定  
+"The stream or file could not be opened"エラーが発生した場合
+src ディレクトリにある storage ディレクトリに権限を設定
 chmod -R 777 storage
 ```
 
@@ -53,16 +54,23 @@ user2
 ```
 
 ## テスト環境構築
+
 ```
 テスト用のデータベースを作成
+・docker-compose exec mysql bash
 ・mysql -u root -p
 ・CREATE DATABASE demo_test;
 
 .env.testingの作成
+・docker-compose exec php bash
 ・cp .env .env.testing、環境変数を以下に変更
 
 　APP_ENV=test
 　APP_KEY=
+
+  DB_CONNECTION=mysql_test
+  DB_HOST=mysql
+  DB_PORT=3306
 　DB_DATABASE=demo_test
 　DB_USERNAME=root
 　DB_PASSWORD=root
@@ -73,9 +81,13 @@ user2
 テスト用データベースのテーブルを作成
 ・php artisan migrate --env=testing
 
+テスト実行
+・php artisan test
+
 ```
 
 ## URL
+
 ```
 ・商品一覧：http://localhost
 ・商品一覧（マイリスト）：http://localhost/?tab=mylist
@@ -94,10 +106,11 @@ user2
 ```
 
 ## 使用技術（実行環境）
+
 ```
-・php:8.1.33  
-・laravel:8.83.8  
-・mysql:8.0.26  
+・php:8.1.33
+・laravel:8.83.8
+・mysql:8.0.26
 ・nginx:1.21.1
 ```
 

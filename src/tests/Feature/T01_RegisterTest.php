@@ -32,7 +32,7 @@ class T01_RegisterTest extends TestCase
 
         $response->assertSessionHasErrors(['name']);
         $response->assertStatus(302);
-        $this->get('/register')->assertSee('お名前を入力してください');
+        $this->get('/register')->assertSee('ユーザー名を入力してください');
     }
 
     public function test_メールアドレスが入力されていない場合、バリデーションメッセージが表示される()

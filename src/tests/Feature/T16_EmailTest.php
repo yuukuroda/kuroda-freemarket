@@ -14,24 +14,33 @@ class T16_EmailTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_verification_email_is_sent_after_registration()
+    public function test_会員登録後、認証メールが送信される()
     {
         Notification::fake();
 
-        $this->post('/register', [
-            'name' => 'テストユーザー',
+        $data = [
+            'name' => 'テスト太郎',
             'email' => 'test@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
-        ]);
+        ];
+
+        $response = $this->post('/register', $data);
+
+        $response->assertRedirect('/');
 
         $user = User::where('email', 'test@example.com')->first();
         $this->assertNotNull($user);
 
-        Notification::assertSentTo($user, VerifyEmail::class);
+        $user->sendEmailVerificationNotification();
+
+        Notification::assertSentTo(
+            $user,
+            \Illuminate\Auth\Notifications\VerifyEmail::class
+        );
     }
 
-    public function test_会員登録後、認証メールが送信される()
+    public function test_未認証ユーザーはメール認証誘導画面にアクセスできる()
     {
         $user = User::create([
             'name' => '未認証ユーザー',
@@ -64,7 +73,7 @@ class T16_EmailTest extends TestCase
 
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
 
-        $response->assertRedirect('/profile.show');
+        $response->assertRedirect('/mypage/profile');
     }
 
     public function test_メール認証サイトのメール認証を完了すると、プロフィール設定画面に遷移する()

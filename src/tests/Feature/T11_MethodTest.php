@@ -17,7 +17,7 @@ class T11_MethodTest extends TestCase
     {
         $user = User::create([
             'name' => 'テストユーザー',
-            'email' => 'test@example.com',
+            'email' => 'test2@example.com',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);

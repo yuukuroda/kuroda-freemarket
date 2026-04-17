@@ -122,7 +122,7 @@ class PurchaseController extends Controller
             ]);
         });
 
-        return redirect()->route('profile.index', ['page' => 'buy'])->with('message', '商品の購入が完了しました。');
+        return redirect('/')->with('message', '商品の購入が完了しました。');
     }
 
     public function konbiniComplete(Request $request, $itemId)

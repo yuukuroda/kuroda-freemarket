@@ -18,7 +18,7 @@ class T13_ProfileGetTest extends TestCase
     {
         $user = User::create([
             'name' => 'テストユーザー',
-            'email' => 'test@example.com',
+            'email' => 'test4@example.com',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);
