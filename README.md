@@ -24,6 +24,10 @@ Laravel 環境構築
 　　DB_USERNAME=laravel_user
 　　DB_PASSWORD=laravel_pass
 
+stripeの設定
+　　STRIPE_KEY=XXX
+　　STRIPE_SECRET=XXX
+
 ・php artisan migrate  
 ・php artisan key:generate  
 ・php artisan db:seed
